@@ -25,10 +25,10 @@ def main(page: fp.Page):
     page.appbar = fp.AppBar(
     title=fp.Container(
         content=logo_completo,
-        margin=fp.margin.only(top=20)  # Ajuste o valor conforme necessário
+        margin=fp.margin.only(top=20) 
     ),
     bgcolor="#D3D3D3",
-   # center_title=True  # Para garantir que fique centralizado
+   # center_title=True  # 
 )
 
     
@@ -80,7 +80,7 @@ def main(page: fp.Page):
 
     texto_cadastro = fp.Text("Não tem cadastro? Cadastre-se Aqui")
 
-    # Botão dentro de um Row para centralizar
+   
     botao_entrar = fp.Row(
         [
             fp.ElevatedButton(
@@ -101,14 +101,14 @@ def main(page: fp.Page):
         alignment="center"
     )
 
-    # Column com alinhamento centralizado
+   
     coluna_login = fp.Column(
         [
             entrada_email,
             fp.Container(padding=3),
             entrada_senha,
             fp.Container(padding=3),
-            botao_entrar,  # Agora está dentro de um Row para centralizar
+            botao_entrar,
         ],
         alignment="center",
         horizontal_alignment="center"  # Alinha os itens ao centro
