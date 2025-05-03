@@ -6,13 +6,14 @@ class TelaConsulta:
         self.cpf_usuario = cpf_usuario
         self.data = data
         
-    def carregar_consultas():
+    def carregar_consultas(self):
         #implementar
         pass
     
-    def atualizar_status():
+    def atualizar_status(self):
         #implementar
         pass
-    def cancelar_consulta(consulta_id):
+    
+    def cancelar_consulta(self, consulta_id):
         #implementar
         pass

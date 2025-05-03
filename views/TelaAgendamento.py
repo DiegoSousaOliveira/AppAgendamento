@@ -8,7 +8,7 @@ class TelaAgendamento:
         #fazer medicos:list<medico>
     
     
-    def carregar_medicos():
+    def carregar_medicos(self):
         #implementar
         pass
     
