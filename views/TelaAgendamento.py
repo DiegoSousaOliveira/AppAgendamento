@@ -15,7 +15,7 @@ class AgendamentoSetor(ft.View):
 
         self.controls = [
             ft.AppBar(
-                leading=ft.IconButton(ft.icons.ARROW_BACK, on_click=lambda _: self.page.go("/home")),
+                leading=ft.IconButton(ft.icons.ARROW_BACK, icon_color=ft.Colors.BLACK, on_click=lambda _: self.page.go("/home")),
                 title=ft.Text("Agendamento", size=28, color="#2a688a", weight=ft.FontWeight.W_700),
                 center_title=True,
                 bgcolor="#dddddd"
@@ -51,30 +51,38 @@ class AgendamentoDisponibilidade(ft.View):
         self.route = "/agendamento_disponibilidade"
         self.page = page
 
-        def card(medico, data_hora):
-            return ft.Container(
-                content=ft.Column([
-                    ft.Text(f"Medico:{medico}", size=18, color="#2a688a", weight=ft.FontWeight.BOLD),
-                    ft.Text(f"Data: {data_hora}", size=16),
-                    ft.ElevatedButton("Marcar", bgcolor="red", color="white")
-                ]),
-                padding=15,
-                bgcolor="white",
-                border_radius=5,
-                shadow=ft.BoxShadow(blur_radius=8, color="#aaa")
-            )
-
+        
         self.controls = [
             ft.AppBar(
-                leading=ft.IconButton(ft.icons.ARROW_BACK, on_click=lambda _: self.page.go("/agendamento_setor")),
+                leading=ft.IconButton(ft.icons.ARROW_BACK, icon_color=ft.Colors.BLACK, on_click=lambda _: self.page.go("/agendamento_setor")),
                 title=ft.Text("Agendamento", size=28, color="#2a688a", weight=ft.FontWeight.W_700),
                 center_title=True,
                 bgcolor="#dddddd"
             ),
             ft.Column([
                 ft.Text("Disponibilidade (odontologia)", size=20, weight=ft.FontWeight.BOLD, color="#2a688a"),
-                card("fabiola", "16/02 às 15hr"),
-                card("Juliano", "2/02 às 7hr")
+                self.card("fabiola", "16/02 às 15hr"),
+                self.card("Juliano", "2/02 às 7hr")
             ], spacing=20)
         ]
+
+    def card(self, medico, data_hora):
+            return ft.Row(
+                 controls=[
+                    ft.Container(
+                        content=ft.Column([
+                            ft.Text(f"Medico:{medico}", size=18, color="#2a688a", weight=ft.FontWeight.BOLD),
+                            ft.Text(f"Data: {data_hora}", size=16),
+                            ft.ElevatedButton("Marcar", bgcolor="red", color="white")
+                        ]),
+                        padding=15,
+                        bgcolor="white",
+                        border_radius=5,
+                        shadow=ft.BoxShadow(blur_radius=8, color="#aaa"),
+                        expand=True,
+                    )
+                 ],
+                 expand=True
+            )
+    
 
