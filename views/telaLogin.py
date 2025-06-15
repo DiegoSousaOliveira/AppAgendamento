@@ -1,9 +1,9 @@
 import flet as ft
 
 class Login(ft.View):
-    def __init__(self, page: ft.Page, logo: ft.Row, title: str, bgcolor: str):
+    def __init__(self, page: ft.Page, logo: ft.Image, title: str, bgcolor: str):
         super().__init__()
-        self.route                  = "\login"
+        self.route                  = "\\login"
         self.page                   = page
         self.logo                   = logo
         self.title                  = title
@@ -65,7 +65,10 @@ class Login(ft.View):
             bgcolor='white'
         )
 
-        self.texto_cadastro = ft.Text("Não tem cadastro? Cadastre-se Aqui")
+        self.texto_cadastro = ft.TextButton(
+            "Não tem cadastro? Cadastre-se Aqui",
+            on_click=self.cadastrar
+            )
 
         self.botao_entrar = ft.Row(
             [
@@ -92,12 +95,13 @@ class Login(ft.View):
             ft.Column(
                 [
                     ft.Container(
-                        content=ft.Text("LOGIN", color="#2a688a", size=30, weight=ft.FontWeight.W_600),
+                        content=self.texto_login,
                         alignment=ft.alignment.center,
                     ),
                     self.campo_email,
                     self.campo_senha,
-                    ft.Row([self.botao_entrar], alignment="center")
+                    self.texto_cadastro,
+                    ft.Row([self.botao_entrar], alignment=ft.MainAxisAlignment.CENTER)
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -114,3 +118,6 @@ class Login(ft.View):
     def entrar_click(self, e):
         # Aqui você pode fazer validação do login se quiser
         self.page.go("/home")
+
+    def cadastrar(self, e):
+        self.page.go("/cadastro")

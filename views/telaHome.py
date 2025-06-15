@@ -3,7 +3,7 @@ import flet as ft
 class Home(ft.View):
     def __init__(self, page: ft.Page, logo: ft.Image, title: str, bgcolor: str):
         super().__init__()
-        self.route                  = "\home"
+        self.route                  = "\\home"
         self.page                   = page
         self.logo                   = logo
         self.title                  = title
@@ -15,19 +15,25 @@ class Home(ft.View):
             controls=[
                 ft.Container(height=12),
                 ft.NavigationDrawerDestination(
-                    label="Item 1",
+                    label="Home",
                     icon=ft.Icons.DOOR_BACK_DOOR_OUTLINED,
                     selected_icon=ft.Icon(ft.Icons.DOOR_BACK_DOOR),
+                    
                 ),
                 ft.Divider(thickness=2),
                 ft.NavigationDrawerDestination(
                     icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
-                    label="Item 2",
+                    label="Consultas",
                     selected_icon=ft.Icons.MAIL,
                 ),
                 ft.NavigationDrawerDestination(
                     icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
-                    label="Item 3",
+                    label="Agendamento por Setor",
+                    selected_icon=ft.Icons.PHONE,
+                ),
+                ft.NavigationDrawerDestination(
+                    icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
+                    label="Agendamento Disponibilidade",
                     selected_icon=ft.Icons.PHONE,
                 ),
             ],
@@ -101,6 +107,18 @@ class Home(ft.View):
         print("Drawer dismissed!")
 
     def handle_change(self, e):
+        if int(e.control.selected_index) == 0:
+            self.page.go("/home")
+        
+        elif int(e.control.selected_index) == 1:
+            self.page.go("/consultas")
+            
+        elif int(e.control.selected_index) == 2:
+            self.page.go("/agendamentoSetor")
+
+        elif int(e.control.selected_index) == 3:
+            self.page.go("/agendamentoDisponibilidade")
+
         print(f"Selected Index changed: {e.control.selected_index}")
         self.page.close(self.drawer)
 
