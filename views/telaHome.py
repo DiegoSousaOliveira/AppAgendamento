@@ -3,11 +3,11 @@ import flet as ft
 class Home(ft.View):
     def __init__(self, page: ft.Page, logo: ft.Image, title: str, bgcolor: str):
         super().__init__()
-        self.route                  = "\\home"
-        self.page                   = page
-        self.logo                   = logo
-        self.title                  = title
-        self.bgcolor                = bgcolor
+        self.route = "/home"
+        self.page = page
+        self.logo = logo
+        self.title = title
+        self.bgcolor = "#e0e0e0"
 
         self.drawer = ft.NavigationDrawer(
             on_dismiss=self.handle_dismissal,
@@ -16,109 +16,130 @@ class Home(ft.View):
                 ft.Container(height=12),
                 ft.NavigationDrawerDestination(
                     label="Home",
-                    icon=ft.Icons.DOOR_BACK_DOOR_OUTLINED,
-                    selected_icon=ft.Icon(ft.Icons.DOOR_BACK_DOOR),
-                    
+                    icon=ft.icons.HOME_OUTLINED,
+                    selected_icon=ft.icons.HOME
                 ),
                 ft.Divider(thickness=2),
                 ft.NavigationDrawerDestination(
-                    icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
+                    icon=ft.icons.CALENDAR_MONTH_OUTLINED,
                     label="Consultas",
-                    selected_icon=ft.Icons.MAIL,
+                    selected_icon=ft.icons.CALENDAR_MONTH
                 ),
                 ft.NavigationDrawerDestination(
-                    icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
+                    icon=ft.icons.LOCAL_HOSPITAL_OUTLINED,
                     label="Agendamento por Setor",
-                    selected_icon=ft.Icons.PHONE,
+                    selected_icon=ft.icons.LOCAL_HOSPITAL
                 ),
                 ft.NavigationDrawerDestination(
-                    icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
+                    icon=ft.icons.ACCESS_TIME_OUTLINED,
                     label="Agendamento Disponibilidade",
-                    selected_icon=ft.Icons.PHONE,
+                    selected_icon=ft.icons.ACCESS_TIME
                 ),
             ],
         )
 
-        self.banner = ft.Row(
-            controls=[logo, ft.Text("HugoMed")],
-            expand=True,
-            alignment=ft.MainAxisAlignment.CENTER
-        )
-
         self.appbar = ft.AppBar(
-            leading=ft.IconButton(ft.icons.MENU, on_click=lambda e: page.open(self.drawer)),
+            leading=ft.IconButton(ft.icons.MENU, icon_color=ft.colors.BLACK,on_click=lambda e: page.open(self.drawer)),
             leading_width=40,
-            title=self.banner,
+            title=ft.Row(
+                controls=[
+                    self.logo,
+                    ft.Text("HugoMed", size=22, weight=ft.FontWeight.BOLD, color="#2a688a")
+                ],
+                alignment=ft.MainAxisAlignment.START
+            ),
             center_title=False,
-            bgcolor=ft.Colors.SURFACE_CONTAINER_HIGHEST,
-            actions=[ft.IconButton(ft.Icons.WB_SUNNY_OUTLINED)],
+            bgcolor="#dddddd",
+            actions=[ft.IconButton(ft.icons.WB_SUNNY_OUTLINED, icon_color=ft.colors.BLACK)],
         )
 
         self.body = ft.SafeArea(
             ft.Column([
                 ft.Container(
-                    content=ft.Text("Cuidar da sua saúde nunca foi tão simples!", color="#000000"),
-                    expand=True,
+                    content=ft.Text(
+                        "Cuidar da sua saúde nunca foi tão simples!",
+                        size=20,
+                        weight=ft.FontWeight.W_600,
+                        color="#2a688a"
+                    ),
                     alignment=ft.alignment.center,
-                    margin=ft.margin.only(top=10)
+                    margin=ft.margin.only(top=20, bottom=10)
                 ),
                 ft.Container(
-                    content=ft.Text("O que você deseja?", color="#2a688a"),
-                    expand=True,
-                    alignment=ft.alignment.center,
-                    margin=ft.margin.only(top=5, bottom=20)
+                    content=ft.Text(
+                        "O que você deseja?",
+                        size=16,
+                        color=ft.colors.BLACK87
+                    ),
+                    alignment=ft.alignment.center
                 ),
                 ft.Column(
                     controls=[
-                        ft.Container(
-                            content=ft.Text("AGENDAR CONSULTA"),
-                            bgcolor="#f45557",
-                            expand=True,
-                            height=100,
-                            alignment=ft.alignment.center
+                        self.opcao_card(
+                            "AGENDAR CONSULTA",
+                            ft.icons.ADD_CIRCLE_OUTLINE,
+                            "#f45557",
+                            lambda e: self.page.go("/agendarConsulta")
                         ),
-                        ft.Container(
-                            content=ft.Text("CANCELAR CONSULTA"),
-                            bgcolor="#ff9a00",
-                            expand=True,
-                            height=100,
-                            alignment=ft.alignment.center,
+                        self.opcao_card(
+                            "CANCELAR CONSULTA",
+                            ft.icons.CANCEL_OUTLINED,
+                            "#ff9a00",
+                            lambda e: self.page.go("/CancelamentoConsulta")
                         ),
-                        ft.Container(
-                            content=ft.Text("MINHAS CONSULTAS"),
-                            bgcolor="#5e17eb",
-                            height=100,
-                            expand=True,
-                            alignment=ft.alignment.center,
+                        self.opcao_card(
+                            "MINHAS CONSULTAS",
+                            ft.icons.CALENDAR_VIEW_DAY_OUTLINED,
+                            "#5e17eb",
+                            lambda e: self.page.go("/listaConsultas")
                         ),
                     ],
-                    expand=True,
-                    spacing=60,
-                    alignment=ft.MainAxisAlignment.CENTER
+                    spacing=25,
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    expand=True
                 ),
-            ])
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            expand=True,
+            )
         )
 
         self.controls = [
+            self.appbar,
             self.body
         ]
+
+    def opcao_card(self, titulo, icone, cor, ao_clicar):
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Icon(icone, color="white", size=30),
+                    ft.Text(titulo, size=18, weight=ft.FontWeight.W_600, color="white")
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=15
+            ),
+            bgcolor=cor,
+            height=90,
+            border_radius=12,
+            on_click=ao_clicar,
+            width=300,
+            shadow=ft.BoxShadow(blur_radius=6, color="#aaa"),
+            padding=ft.padding.all(10),
+        )
 
     def handle_dismissal(self, e):
         print("Drawer dismissed!")
 
     def handle_change(self, e):
-        if int(e.control.selected_index) == 0:
-            self.page.go("/home")
-        
-        elif int(e.control.selected_index) == 1:
-            self.page.go("/consultas")
-            
-        elif int(e.control.selected_index) == 2:
-            self.page.go("/agendamentoSetor")
-
-        elif int(e.control.selected_index) == 3:
-            self.page.go("/agendamentoDisponibilidade")
-
-        print(f"Selected Index changed: {e.control.selected_index}")
+        rotas = [
+            "/home",
+            "/consultas",
+            "/agendamentoSetor",
+            "/agendamentoDisponibilidade"
+        ]
+        index = int(e.control.selected_index)
+        if index < len(rotas):
+            self.page.go(rotas[index])
         self.page.close(self.drawer)
-

@@ -1,20 +1,21 @@
 import flet as ft
 
 class Cadastro(ft.View):
-    def __init__(self, page: ft.Page, logo: ft.Image, title: str, bgcolor: str):
+    def __init__(self, page: ft.Page, logo: ft.Image, title: str, bgcolor: str = "#f0f4f8"):
         super().__init__()
-        self.route                  = "\\cadastro"
-        self.page                   = page
-        self.logo                   = logo
-        self.title                  = title
-        self.bgcolor                = bgcolor
-        
+        self.route = "\\cadastro"
+        self.page = page
+        self.logo = logo
+        self.title = title
+        self.bgcolor = bgcolor
+
         self.banner = ft.Row(
             controls=[logo, ft.Text(self.title)],
             expand=True,
             alignment=ft.MainAxisAlignment.CENTER
         )
 
+        # AppBar igual ao Login
         self.appbar = ft.AppBar(
             title=self.banner,
             center_title=True,
@@ -25,90 +26,106 @@ class Cadastro(ft.View):
         self.text_cadastro = ft.Text(
             "Cadastro",
             color="#2a688a",
-            size=25,
+            size=28,
             font_family="League Spartan",
-            weight=ft.FontWeight.W_600,
+            weight=ft.FontWeight.W_700,
+            text_align=ft.TextAlign.CENTER
         )
 
-        self.login_container = ft.Container(
-            content=self.text_cadastro,
-            padding=ft.padding.only(bottom=38) 
-        )
+        self.field_cpf = self.create_field("CPF", False)
+        self.field_name = self.create_field("Nome", False)
+        self.field_email = self.create_field("Email", False)
+        self.field_call = self.create_field("Telefone", False)
+        self.field_senha = self.create_field("Senha", True)
 
-        self.field_cpf = self.create_field("Cpf", False, "#2a688a")
-
-        self.field_name = self.create_field("Nome", False, "#2a688a")
-        
-        self.field_email = self.create_field("Email", False, "#2a688a")
-
-        self.field_call = self.create_field("Telefone", False, "#2a688a")
-
-        self.field_senha = self.create_field("Senha", True, "#2a688a")
-
-        self.botao_cadastro = ft.Row(
-            [
-                ft.ElevatedButton(
-                    "Cadastrar",
-                    width=160,
-                    height=47,
-                    bgcolor='red',
-                    color='white',
-                     on_click=self.entrar_click,
-                    style=ft.ButtonStyle(
-                        text_style=ft.TextStyle(
-                            size=22,
-                            font_family="Open Sans",
-                            weight=ft.FontWeight.W_700
-                        )
-                    )
+        self.botao_cadastro = ft.ElevatedButton(
+            "Cadastrar",
+            width=400,
+            height=50,
+            bgcolor="#2a688a",
+            color="white",
+            on_click=self.entrar_click,
+            style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=8),
+                overlay_color="#1f4f7a",
+                text_style=ft.TextStyle(
+                    size=20,
+                    font_family="Open Sans",
+                    weight=ft.FontWeight.W_700
                 )
-            ],
-            alignment=ft.MainAxisAlignment.CENTER
+            )
         )
-    
-        self.body = ft.SafeArea(
-            ft.Column(
+
+        self.form_container = ft.Container(
+            content=ft.Column(
                 [
-                    ft.Container(
-                        content=self.text_cadastro,
-                        alignment=ft.alignment.center,
-                    ),
+                    self.text_cadastro,
                     self.field_cpf,
                     self.field_name,
                     self.field_email,
                     self.field_call,
                     self.field_senha,
-                    ft.Row([self.botao_cadastro], alignment=ft.MainAxisAlignment.CENTER)
+                    self.botao_cadastro,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                spacing=30
+                spacing=24,
             ),
-            expand=True,
+            width=480,
+            padding=ft.padding.symmetric(vertical=48, horizontal=48),
+            bgcolor="white",
+            border_radius=15,
+            shadow=ft.BoxShadow(
+                blur_radius=18,
+                color="#00000033",
+                offset=ft.Offset(0, 6)
+            ),
+            alignment=ft.alignment.center,
+        )
+
+        self.body = ft.SafeArea(
+            ft.Container(
+                content=ft.Column(
+                    [
+                        self.form_container
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    expand=True,
+                ),
+                expand=True,
+                bgcolor=self.bgcolor,
+                alignment=ft.alignment.center,
+                padding=ft.padding.symmetric(horizontal=24)
+            )
         )
 
         self.controls = [
+            self.appbar,
             self.body
         ]
 
-
-    def create_field(self, nome: str, password: bool, cor: str, size: int = 20):
+    def create_field(self, nome: str, password: bool, size: int = 18):
         return ft.TextField(
             label=nome,
             password=password,
-            can_reveal_password=True,
+            can_reveal_password=password,
             label_style=ft.TextStyle(
-                color=cor,
+                color="#2a688a",
                 font_family="Open Sans",
                 weight=ft.FontWeight.W_700,
                 size=size
             ),
-            color='black',
+            color="#222222",
             border_color="#b8b9bb",
-            cursor_color="red",
-            bgcolor='white'
+            cursor_color="#2a688a",
+            bgcolor="white",
+            width=400,
+            text_size=18,
+            border_radius=8,
+            content_padding=12,
         )
 
     def entrar_click(self, e):
-        # Aqui você pode fazer validação do login se quiser
+        # Aqui você pode adicionar validação e cadastro real
         self.page.go("/home")
